@@ -14,12 +14,10 @@ Also included are convenience functions
  - `getFileNames()` - for obtaining a list of all zip files currently available for use by this package
  - `getTeamIDs()` - for providing the team ID value to be used in the `team` argument of `getRetrosheet()`
  - `getParkIDs()` - for ballpark ID and name information
-
-`retrosheet` version 1.0.2 is now available on CRAN, and can be installed with
-
-	install.packages("retrosheet")
 	
 This development version can be installed with 
 
 	install.packages("devtools")
-	devtools::install_github("rmscriven/retrosheet")
+	devtools::install_github( repo = "keberwein/retrosheet" )
+	
+*Last updated on February 28, 2018*
