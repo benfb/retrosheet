@@ -20,4 +20,10 @@ This development version can be installed with
 	install.packages("devtools")
 	devtools::install_github( repo = "keberwein/retrosheet" )
 	
+# Note About Retrosheet
+
+Recipients of Retrosheet data are free to make any desired use of the information, including (but not limited to) selling it, giving it away, or producing a commercial product based upon the data. Retrosheet has one requirement for any such transfer of data or product evelopment, which is that the following statement must appear prominently:
+
+> The information used here was obtained free of charge from and is copyrighted by [Retrosheet](http://www.retrosheet.org/).  Interested parties may contact Retrosheet at 20 Sunset Rd., Newark, DE 19711.
+	
 *Last updated on February 28, 2018*
