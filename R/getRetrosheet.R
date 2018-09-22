@@ -53,6 +53,7 @@
 
 getRetrosheet <- function(type, year, team, schedSplit = NULL, stringsAsFactors = FALSE, ...) {
 
+    # print(team)
     type <- match.arg(type, c("game", "play", "roster", "schedule"))
 
     if(type == "play" && missing(team)) {
@@ -111,6 +112,8 @@ getRetrosheet <- function(type, year, team, schedSplit = NULL, stringsAsFactors 
     team <- match.arg(team, substr(allTeams, 1L, 3L))
 
     # function for single game parsing
+    null.subs <- 0
+    null.com <- 0
     doGame <- function(x) {
         sc <- scan(text = x, sep = ",", what = "", flush = TRUE, quiet = TRUE)
         outer <- retrosheetFields$eventOuter
@@ -121,8 +124,26 @@ getRetrosheet <- function(type, year, team, schedSplit = NULL, stringsAsFactors 
         }
         names(v) <- outer
         v[-c(1:2, 6L)] <- lapply(v[-c(1:2, 6L)], stri_split_fixed, ",", simplify = TRUE)
-        ans <- Map(function(A, B) { colnames(A) <- B; A },
-            A = v, B = retrosheetFields$eventInner)
+        if(all(dim(v$sub) == 0)) {
+            # print("NULL SUBS")
+            null.subs = null.subs + 1
+            v$sub <- matrix(data = NA, nrow = 1, ncol = 5)
+        }
+        # print("V SUB")
+        # print(v$sub)
+        # print("V COM")
+        # print(v$com)
+        # print(v)
+        # print(retrosheetFields$eventInner)
+        # print(length(v))
+        # print(length(retrosheetFields$eventInner))
+        # THIS IS THE PROBLEM
+        ans <- Map(function(A, B) {
+            # print("NEW GAME")
+            # print(A)
+            colnames(A) <- B
+            A
+        }, A = v, B = retrosheetFields$eventInner)
         ans
     }
 
@@ -131,6 +152,10 @@ getRetrosheet <- function(type, year, team, schedSplit = NULL, stringsAsFactors 
     r <- readLines(unz(tmp, filename = fnm))
     g <- grepl("^id", r)
     sr <- unname(split(gsub("\"", "", r), cumsum(g)))
+    # print(sr)
     res <- lapply(sr, doGame)
+    # print("THE IMPORTANT NUMBERS")
+    # print(null.subs)
+    # print(null.com)
     res
 }
